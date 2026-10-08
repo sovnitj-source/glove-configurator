@@ -314,11 +314,11 @@ export class ColorController {
   open(id) {
     if (!id) return;
     this.openId = id;
+    queueMicrotask(() => this.renderSummary());
     this.tabs?.forEach(({ t }, tid) => {
       const on = tid === id;
       t.classList.toggle('active', on);
       t.setAttribute('aria-selected', on);
-      if (on) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     for (const [zid, { section, headBtn }] of this.zones) {
       const on = zid === id;
@@ -333,15 +333,25 @@ export class ColorController {
     if (!this.summaryRoot) return;
     const m = this.materials;
     const ids = ['leather', 'binding', 'laces', 'liner', 'swoosh', 'swooshBase', 'stitching', 'embroidery'];
+    const label = document.getElementById('build-label');
+    if (label) label.textContent = this.openId && CHANNELS[this.openId] ? `Editing · ${CHANNELS[this.openId].label}` : 'Your build';
     this.summaryRoot.replaceChildren(...ids.map((id) => {
-      const b = el('button', { class: 'sum-chip', title: `${CHANNELS[id].label}: ${this.nameOf(m.config[id])} ${m.config[id]}`, style: `--c:${m.config[id]}` });
+      const name = CHANNELS[id].label;
+      const b = el('button', {
+        class: 'sum-chip' + (id === this.openId ? ' active' : ''), 'data-label': name,
+        title: `${name}: ${this.nameOf(m.config[id])} ${m.config[id]} — click to edit`,
+        'aria-label': `Edit ${name}`, style: `--c:${m.config[id]}`,
+      });
       b.addEventListener('click', () => {
         this.open(id);
-        this.zones.get(id).section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        this.refresh();
+        // bring the colour card into view (panel scroll on desktop, page scroll on mobile)
+        this.zones.get(id).section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
       return b;
     }));
   }
+
 
   refresh() {
     this.sync.forEach((f) => f());
