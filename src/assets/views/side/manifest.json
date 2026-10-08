@@ -1,0 +1,537 @@
+{
+  "id": "side",
+  "label": "Side",
+  "canvas": {
+    "width": 890,
+    "height": 647
+  },
+  "assets": {
+    "Base": {
+      "file": "source/Base.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.1639,
+      "alphaOpaquePx": 85700,
+      "alphaPartialPx": 8654,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        41,
+        233,
+        785,
+        592
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Base",
+      "channel": "leather",
+      "region": "main shell: thumb side, heel and wrist (carries '\u2026R Elite')"
+    },
+    "Binding": {
+      "file": "source/Binding.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0123,
+      "alphaOpaquePx": 5557,
+      "alphaPartialPx": 1516,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        31,
+        182,
+        381,
+        547
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Binding",
+      "channel": "binding",
+      "region": "heel binding + finger-hole binding"
+    },
+    "Boh": {
+      "file": "source/Boh.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0064,
+      "alphaOpaquePx": 2095,
+      "alphaPartialPx": 1587,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        215,
+        49,
+        521,
+        194
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "BOH",
+      "channel": "leather",
+      "region": "back-of-hand strip at the top edge"
+    },
+    "Fingers": {
+      "file": "source/Fingers.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0071,
+      "alphaOpaquePx": 2954,
+      "alphaPartialPx": 1143,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        381,
+        70,
+        718,
+        131
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Fingers",
+      "channel": "leather",
+      "region": "finger-stall strip at the top edge"
+    },
+    "Laces": {
+      "file": "source/Laces.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.1478,
+      "alphaOpaquePx": 72999,
+      "alphaPartialPx": 12095,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        172,
+        46,
+        826,
+        547
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Laces",
+      "channel": "laces",
+      "region": "all lacing incl. knots and tails"
+    },
+    "Palm Liner": {
+      "file": "source/Palm Liner.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0033,
+      "alphaOpaquePx": 1691,
+      "alphaPartialPx": 199,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        177,
+        194,
+        238,
+        240
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Palm Liner",
+      "channel": "liner",
+      "region": "interior seen through the finger hole"
+    },
+    "Palm": {
+      "file": "source/Palm.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0221,
+      "alphaOpaquePx": 11109,
+      "alphaPartialPx": 1631,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        223,
+        95,
+        475,
+        435
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Palm",
+      "channel": "leather",
+      "region": "thumb/palm panel behind the lacing"
+    },
+    "Shadows": {
+      "file": "source/Shadows.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 1.0,
+      "alphaOpaquePx": 256,
+      "alphaPartialPx": 575574,
+      "hasTransparentPx": false,
+      "rgbGrayscale": true,
+      "rgbConstant": false,
+      "rgbMeanLum": 149.1,
+      "rgbLumRange": [
+        0,
+        255
+      ],
+      "bbox": [
+        0,
+        0,
+        889,
+        646
+      ],
+      "type": "lightmap_source",
+      "useChannel": "rgb.r (sRGB luminance of a photographed glove)",
+      "colorizable": false,
+      "containsShading": true
+    },
+    "Swoosh Base": {
+      "file": "source/Swoosh Base.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0213,
+      "alphaOpaquePx": 9500,
+      "alphaPartialPx": 2773,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        119,
+        328,
+        500,
+        529
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Swoosh Base",
+      "channel": "swooshBase",
+      "region": "swoosh fill (black leather in the photo)"
+    },
+    "Swoosh Stitching": {
+      "file": "source/Swoosh Stitching.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0171,
+      "alphaOpaquePx": 7516,
+      "alphaPartialPx": 2331,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        110,
+        319,
+        509,
+        536
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Swoosh Stitching",
+      "channel": "stitching",
+      "region": "stitched border around the swoosh"
+    },
+    "Swoosh": {
+      "file": "source/Swoosh.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.012,
+      "alphaOpaquePx": 0,
+      "alphaPartialPx": 6885,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        124,
+        334,
+        482,
+        523
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Swoosh",
+      "channel": "swoosh",
+      "region": "white swoosh outline / piping"
+    },
+    "Web": {
+      "file": "source/Web.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0896,
+      "alphaOpaquePx": 49197,
+      "alphaPartialPx": 2400,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        369,
+        137,
+        821,
+        336
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Web",
+      "channel": "leather",
+      "region": "trap web pocket piece"
+    },
+    "Welting": {
+      "file": "source/Welting.png",
+      "width": 890,
+      "height": 647,
+      "channels": "RGBA",
+      "alphaCoverage": 0.0158,
+      "alphaOpaquePx": 5922,
+      "alphaPartialPx": 3154,
+      "hasTransparentPx": true,
+      "rgbGrayscale": true,
+      "rgbConstant": true,
+      "rgbMeanLum": 255.0,
+      "rgbLumRange": [
+        255,
+        255
+      ],
+      "bbox": [
+        186,
+        71,
+        784,
+        546
+      ],
+      "type": "material_mask",
+      "useChannel": "alpha",
+      "colorizable": true,
+      "containsShading": false,
+      "semanticKey": "Welting",
+      "channel": "leather",
+      "region": "welting strips"
+    }
+  },
+  "masks": {
+    "Base": "source/Base.png",
+    "Binding": "source/Binding.png",
+    "BOH": "source/Boh.png",
+    "Fingers": "source/Fingers.png",
+    "Laces": "source/Laces.png",
+    "Palm Liner": "source/Palm Liner.png",
+    "Palm": "source/Palm.png",
+    "Swoosh Base": "source/Swoosh Base.png",
+    "Swoosh Stitching": "source/Swoosh Stitching.png",
+    "Swoosh": "source/Swoosh.png",
+    "Web": "source/Web.png",
+    "Welting": "source/Welting.png",
+    "Embroidery": "derived/Embroidery.png"
+  },
+  "lighting": {
+    "source": "Shadows",
+    "rgbEqualsLuminance": true,
+    "alphaCorrelatesWithLuminance": -0.985,
+    "rgbRangeInsideGlove": [
+      0,
+      255
+    ],
+    "leatherMedianRaw": 36.0,
+    "photographedGlove": "dark",
+    "perMaskLuminancePercentiles_5_50_95": {
+      "Base": [
+        8,
+        17,
+        96
+      ],
+      "Binding": [
+        3,
+        20,
+        109
+      ],
+      "BOH": [
+        40,
+        92,
+        135
+      ],
+      "Fingers": [
+        6,
+        82,
+        122
+      ],
+      "Laces": [
+        8,
+        31,
+        135
+      ],
+      "Palm Liner": [
+        2,
+        5,
+        12
+      ],
+      "Palm": [
+        10,
+        63,
+        117
+      ],
+      "Swoosh Base": [
+        8,
+        17,
+        38
+      ],
+      "Swoosh Stitching": [
+        6,
+        16,
+        67
+      ],
+      "Swoosh": [
+        120,
+        248,
+        255
+      ],
+      "Web": [
+        15,
+        73,
+        172
+      ],
+      "Welting": [
+        3,
+        19,
+        115
+      ]
+    },
+    "conclusion": "RGB is a full-range luminance photo used as the lightmap after levels (white/gamma above) and sRGB->linear decoding on the GPU. Alpha is ignored."
+  },
+  "derived": {
+    "Embroidery": {
+      "file": "derived/Embroidery.png",
+      "type": "material_mask",
+      "channel": "embroidery",
+      "parent": "Base",
+      "generatedFrom": "Shadows.png high-pass within Base alpha, ROI [40, 225, 200, 320]",
+      "alphaCoverage": 0.0018,
+      "bbox": [
+        73,
+        252,
+        137,
+        298
+      ]
+    }
+  },
+  "lightmap": "source/Shadows.png",
+  "gloveBBox": [
+    31,
+    46,
+    827,
+    593
+  ],
+  "layerAnalysis": {
+    "solidOverlapPx": 2,
+    "overlaps": [
+      {
+        "a": "Fingers",
+        "b": "Welting",
+        "px": 2
+      }
+    ],
+    "alphaSumPercentiles_1_50_99": [
+      0.263,
+      1.0,
+      1.0
+    ],
+    "conclusion": "Masks partition the glove; overlaps are anti-aliased edges only. Rendered with a coverage-weighted blend (sum m_i*c_i / sum m_i)."
+  },
+  "levels": {
+    "black": 0.0,
+    "white": 0.8392,
+    "gamma": 0.1651
+  },
+  "exposure": {
+    "whitePointLinear": 0.8987,
+    "leather": 1.0,
+    "stitching": 1.168,
+    "liner": 1.759,
+    "swooshBase": 1.328
+  }
+}

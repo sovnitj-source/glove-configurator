@@ -1,0 +1,22 @@
+{
+  "views": [
+    {
+      "id": "back",
+      "label": "Back",
+      "width": 679,
+      "height": 975
+    },
+    {
+      "id": "side",
+      "label": "Side",
+      "width": 890,
+      "height": 647
+    },
+    {
+      "id": "palm",
+      "label": "Palm",
+      "width": 860,
+      "height": 852
+    }
+  ]
+}

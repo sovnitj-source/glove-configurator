@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glove Studio · Vapor Elite Configurator</title>
+  <link rel="stylesheet" href="src/styles.css" />
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark">◆</span>
+      <div>
+        <strong>Glove Studio</strong>
+        <small>Vapor Elite · Trap web</small>
+      </div>
+    </div>
+    <nav class="actions">
+      <button id="btn-grid" class="ghost">Colour test</button>
+      <button id="btn-debug" class="ghost">Developer</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <div class="stage">
+      <div id="frames" class="frames"></div>
+      <div id="viewer3d" class="viewer3d" hidden></div>
+      <div id="status" class="status">Loading assets…</div>
+      <nav id="view-switcher" class="view-switcher" aria-label="Camera view"></nav>
+    </div>
+
+    <aside class="panel">
+      <div id="controls"></div>
+      <div class="export">
+        <div class="export-row">
+          <div>
+            <div class="mini-label">Your build</div>
+            <div id="summary" class="summary"></div>
+          </div>
+          <label class="switch"><input type="checkbox" id="export-transparent" /><span class="track"></span><span>Transparent PNG</span></label>
+        </div>
+        <button id="btn-export" class="primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span id="export-label">Download PNG</span>
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <aside id="debug" class="drawer" hidden>
+    <header>
+      <h3>Developer</h3>
+      <button id="btn-debug-close" class="ghost icon" aria-label="Close">✕</button>
+    </header>
+    <div id="debug-body"></div>
+  </aside>
+
+  <dialog id="grid-dialog">
+    <header>
+      <h3>Colour independence test</h3>
+      <button id="btn-grid-close" class="ghost icon" aria-label="Close">✕</button>
+    </header>
+    <div id="grid-body"></div>
+  </dialog>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "source": "Hunyuan3D-2mv (Hugging Face Space) from the back/side/palm photos; see RESEARCH_3D.md",
+  "vertices": 97050,
+  "faces": 194296,
+  "labels": [
+    "Base",
+    "BOH",
+    "Fingers",
+    "Palm",
+    "Web",
+    "Welting",
+    "Binding",
+    "Laces",
+    "Palm Liner",
+    "Swoosh",
+    "Swoosh Stitching",
+    "Swoosh Base",
+    "Embroidery"
+  ],
+  "labelCounts": {
+    "Base": 17715,
+    "BOH": 25547,
+    "Fingers": 9663,
+    "Palm": 1395,
+    "Web": 17613,
+    "Welting": 9477,
+    "Binding": 1424,
+    "Laces": 13610,
+    "Palm Liner": 553,
+    "Swoosh": 8,
+    "Swoosh Stitching": 45
+  },
+  "visibleFromBack": 0.294,
+  "backCamera": {
+    "right": [
+      0.9934859246432336,
+      -0.053592216673503085,
+      0.10056635544653836
+    ],
+    "up": [
+      -2.4256120699884393e-05,
+      0.8824107305860778,
+      0.47047986349915655
+    ],
+    "forward": [
+      -0.11395488996712605,
+      -0.4674175615641379,
+      0.8766613406521446
+    ],
+    "scale": 786.029454939889,
+    "offset": [
+      373.89420693337297,
+      467.2957386913566
+    ],
+    "canvas": [
+      679,
+      975
+    ],
+    "silhouetteIoU": 0.868,
+    "forwardRange": [
+      -0.4766362047328242,
+      0.3521294037076457
+    ]
+  },
+  "accuracy": "Back side matches the photo; side/palm geometry is AI-estimated (approximate)."
+}

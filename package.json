@@ -1,0 +1,16 @@
+{
+  "name": "glove-configurator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "WebGL baseball glove colour configurator built on the supplied PNG masks + lightmap",
+  "scripts": {
+    "start": "node tools/serve.mjs 5173",
+    "analyze": "python3 tools/analyze_assets.py",
+    "model": "python3 tools/build_model.py",
+    "qa": "node tools/qa_capture.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}
