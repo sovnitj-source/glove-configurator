@@ -62,7 +62,6 @@ async function main() {
     new ColorController(document.getElementById('controls'), {
       materials,
       summaryRoot: document.getElementById('summary'),
-      onFocus: (zone) => vm.setFocus(zone),
       onChange: () => {
         syncStage();
         vm.requestRender();

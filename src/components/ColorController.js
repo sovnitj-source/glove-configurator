@@ -49,11 +49,10 @@ function writeRecent(list) {
 // Customisation panel. Every interaction goes through MaterialManager, which only writes
 // shader uniforms; the renderer redraws on the next animation frame.
 export class ColorController {
-  constructor(root, { materials, onChange, onFocus, summaryRoot }) {
+  constructor(root, { materials, onChange, summaryRoot }) {
     this.root = root;
     this.materials = materials;
     this.onChange = onChange;
-    this.onFocus = onFocus;
     this.summaryRoot = summaryRoot;
     this.sync = [];
     this.zones = new Map();
@@ -73,9 +72,9 @@ export class ColorController {
     const grid = el('div', { class: 'swatch-grid', role: 'radiogroup' });
     const items = presets.map((p) => {
       const b = el('button', {
-        class: 'sw', role: 'radio', title: `${p.name}  ${p.hex}`, 'aria-label': p.name,
+        class: 'tile', role: 'radio', title: `${p.name}  ${p.hex}`, 'aria-label': p.name,
         style: `--c:${p.hex};--on:${contrastOn(p.hex)}`,
-      });
+      }, [el('span', { class: 'tile-color' }), el('span', { class: 'tile-name', text: p.name })]);
       b.addEventListener('click', () => apply(p.hex, true));
       grid.append(b);
       return [b, p.hex.toUpperCase()];
@@ -130,7 +129,7 @@ export class ColorController {
   build() {
     const m = this.materials;
     const head = el('div', { class: 'cfg-head' }, [
-      el('div', {}, [el('h2', { text: 'Customise' }), el('p', { text: 'Choose a zone, then a colour' })]),
+      el('div', {}, [el('h2', { text: 'Customise' }), el('p', { text: 'Pick a part, then a colour' })]),
     ]);
     const hist = el('div', { class: 'hist' });
     const mk = (name, title, fn) => {
@@ -161,8 +160,32 @@ export class ColorController {
     scene.append(this.buildBackground());
     this.root.append(scene);
 
+    this.buildTabs(head);
     this.open('leather');
     this.refresh();
+  }
+
+  // Modern tab bar: one pill per zone with its live colour; replaces the stacked accordion.
+  buildTabs(head) {
+    const SHORT = { liner: 'Liner', stitching: 'Stitching', swooshBase: 'Swoosh Fill', background: 'Background' };
+    const bar = el('nav', { class: 'zone-tabs', role: 'tablist', 'aria-label': 'Glove parts' });
+    this.tabs = new Map();
+    for (const [id] of this.zones) {
+      const dot = el('span', { class: 'tab-dot' });
+      const label = SHORT[id] || CHANNELS[id]?.label || id;
+      const t = el('button', { class: 'zone-tab', role: 'tab', 'data-zone': id }, [dot, el('span', { text: label })]);
+      t.addEventListener('click', () => this.open(id));
+      bar.append(t);
+      this.tabs.set(id, { t, dot });
+    }
+    head.after(bar);
+    this.sync.push(() => {
+      for (const [id, { dot }] of this.tabs) {
+        const transparent = id === 'background' && this.materials.config.backgroundMode === 'transparent';
+        dot.classList.toggle('checker', transparent);
+        dot.style.setProperty('--c', transparent ? 'transparent' : (id === 'background' ? this.materials.config.background : this.materials.config[id]));
+      }
+    });
   }
 
   zoneShell(id, label, hint, focus) {
@@ -177,11 +200,7 @@ export class ColorController {
     headBtn.lastChild.innerHTML = ICONS.chevron;
     const body = el('div', { class: 'zone-body' });
     const section = el('section', { class: 'zone', 'data-zone': id }, [headBtn, el('div', { class: 'zone-collapse' }, [body])]);
-    headBtn.addEventListener('click', () => this.open(this.openId === id ? null : id));
-    if (focus != null) {
-      section.addEventListener('mouseenter', () => this.onFocus?.(focus));
-      section.addEventListener('mouseleave', () => this.onFocus?.(null));
-    }
+
     this.zones.set(id, { section, headBtn });
     return { section, body, chip, value };
   }
@@ -227,7 +246,6 @@ export class ColorController {
     const bar = el('div', { class: 'panel-bar' });
     const all = el('button', { class: 'pill', text: 'All leather' });
     all.addEventListener('click', () => { this.panelTarget = null; this.refresh(); });
-    all.addEventListener('mouseenter', () => this.onFocus?.(0));
     bar.append(all);
     const pills = LEATHER_PANELS.map((p, i) => {
       const dot = el('span', { class: 'dot' });
@@ -242,8 +260,6 @@ export class ColorController {
       });
       const b = el('button', { class: 'pill' }, [dot, el('span', { text: p.label }), relink]);
       b.addEventListener('click', () => { this.panelTarget = p.key; this.refresh(); });
-      b.addEventListener('mouseenter', () => this.onFocus?.(10 + i));
-      b.addEventListener('mouseleave', () => this.onFocus?.(0));
       bar.append(b);
       return { b, dot, relink, key: p.key };
     });
@@ -296,7 +312,14 @@ export class ColorController {
   }
 
   open(id) {
+    if (!id) return;
     this.openId = id;
+    this.tabs?.forEach(({ t }, tid) => {
+      const on = tid === id;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on);
+      if (on) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
     for (const [zid, { section, headBtn }] of this.zones) {
       const on = zid === id;
       section.classList.toggle('open', on);

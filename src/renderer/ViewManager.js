@@ -176,8 +176,11 @@ export class ViewManager extends EventTarget {
     const mobile = this.mobile?.matches;
     const r = this.framesRoot.getBoundingClientRect();
     const W = Math.max(1, r.width);
-    const H = mobile ? Infinity : Math.max(1, r.height);
     const boxes = this.boxes(all);
+    // Mobile/tablet: views stack, so cap their height to a share of the screen so the colour
+    // panel is always reachable (single view ~60% of the screen, each stacked view ~40%).
+    const vh = window.innerHeight;
+    const H = mobile ? (all ? vh * 0.42 * boxes.length + GAP * (boxes.length - 1) : vh * 0.6) : Math.max(1, r.height);
     const gaps = GAP * (boxes.length - 1);
     const sumW = boxes.reduce((a, b) => a + b.w, 0);
     const sumH = boxes.reduce((a, b) => a + b.h, 0);
@@ -187,6 +190,7 @@ export class ViewManager extends EventTarget {
     const kCol = Math.min(W / maxW, (H - gaps) / sumH);
     const column = mobile || kCol > kRow;
     let k = column ? kCol : kRow;
+    if (mobile && all) k = Math.min(W / maxW, ...boxes.map((b) => (vh * 0.42) / b.h)); // each stacked view ≤ 42% of screen
     // Cap upscaling relative to native pixels (per view, using its own scale factor).
     k = Math.min(k, ...boxes.map((b) => MAX_UPSCALE / b.s));
     this.inner.classList.toggle('column', column);

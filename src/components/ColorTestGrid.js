@@ -78,7 +78,7 @@ export class ColorTestGrid {
         metric = { name: c.name, hex: c.hex, rendered: rgbToHex(m.mean), dHue, sat: m.meanSat, pass };
         results.push(metric);
       }
-      this.grid.append(el('figure', { class: 'tile' }, [
+      this.grid.append(el('figure', { class: 'test-tile' }, [
         canvas,
         el('figcaption', {}, [
           el('span', { class: 'chip', style: `--c:${c.hex}` }),
