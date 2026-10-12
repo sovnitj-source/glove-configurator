@@ -38,6 +38,23 @@ The **3D** toggle in the view switcher replaces the photo views with a rotatable
 
 **Rebuilding.** `npm run model` (`tools/build_model.py`) rebuilds `src/assets/model/` from `research/3d-ai/`. For an exact 3D glove, replace the mesh with a scan or a panel-split `.glb` (see `RESEARCH_3D.md`).
 
+## Fabric.js version (`/fabric/`)
+
+There's a second implementation of the same configurator, built on **Fabric.js 7.4**, at `/fabric/`. Locally that's http://localhost:5173/fabric/, and it's live at `…/fabric/` on both sites.
+
+**How it works:**
+- **One Fabric `StaticCanvas` holds every camera view as a `FabricImage`.** Each image is cropped to its glove with `cropX`, `cropY`, `width` and `height`.
+- **`GloveFilter` (`fabric/GloveFilter.js`) is a custom Fabric WebGL image filter.** It subclasses `filters.BaseFilter` and binds five extra textures (the mask packs), the same pattern Fabric's own `BlendImage` filter uses. Its shading code is imported from the Three.js shader (`src/shaders/composite.glsl.js`), so both versions use one material model. The only change is that `panelColor()` is rewritten for WebGL1, because Fabric's filters run on WebGL1.
+- **Colour changes are GPU work only.** A colour change updates shared uniform values, then `image.applyFilters()` re-runs on the GPU and `canvas.requestRenderAll()` redraws.
+- **Lighting maps are pre-baked.** Fabric filters are single-pass, so the maps that the Three.js version computes in GPU pre-passes (masked blurs and seam closing) are baked offline by `tools/build_fabric_maps.py` (`npm run fabric-maps`) into opaque RGB PNGs under `views/<id>/derived/fabric/`.
+- **The UI code is shared.** The colour UI, presets, undo/redo and URL parameters are the same modules as the Three.js version. `fabric/three-shim.js` replaces the two Three.js value classes the shared colour manager imports, so the Fabric page loads no Three.js.
+- **Export uses Fabric.** `canvas.toDataURL({ left, top, width, height, multiplier })` crops to the visible gloves at native resolution.
+- **Parity with the Three.js version.** The rendered output is identical: across all three views the mean colour difference is 0.12/255 and the alpha is identical. The Back, Side, Palm and All views, the colour panels, per-panel leather colours, background options, undo/redo and download all work the same.
+
+**Not in the Fabric version:**
+- **The 360° 3D view.** Fabric.js is a 2D canvas library and has no 3D engine.
+- **The developer panel and colour-test grid.** These are Three.js debugging tools.
+
 ## Run locally
 
 Requires Node 18 or later. There is no build step, and Three.js is vendored under `vendor/three`, so the app runs offline.
@@ -187,6 +204,9 @@ src/assets/views/<id>/manifest.json  per-view manifest: masks, levels, exposure,
 src/renderer/AssetLoader.js     manifest + texture loading as data
 src/renderer/LayerManager.js    one-time GPU pre-passes (packing, lightmap, blur, seam closing)
 src/renderer/ViewManager.js     one renderer per camera view, shared uniforms, view switcher, 3D toggle
+fabric/                         Fabric.js version: index.html, app.js, FabricStage.js, GloveFilter.js, three-shim.js
+vendor/fabric/                  Fabric.js 7.4 ESM bundle
+tools/build_fabric_maps.py      bakes per-view lighting/mask packs for the Fabric filter
 src/renderer/ModelViewer.js     360° viewer: AI mesh + projected back photo + panel-coloured leather
 src/assets/model/               glove.glb (labelled mesh) + model.json (back camera, labels)
 research/3d-ai/                 AI reconstruction inputs/outputs + fitted cameras + fit check

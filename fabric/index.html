@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glove Studio · Fabric.js</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/styles.css" />
+  <link rel="stylesheet" href="fabric.css" />
+  <script type="importmap">
+    { "imports": { "fabric": "../vendor/fabric/fabric.min.mjs", "three": "./three-shim.js" } }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark">◆</span>
+      <div>
+        <strong>Glove Studio</strong>
+        <small>Vapor Elite · Trap web</small>
+      </div>
+    </div>
+    <nav class="actions">
+      <span class="engine-badge" title="Rendered with a custom Fabric.js WebGL filter">Fabric.js</span>
+      <a class="ghost" href="../">Three.js version</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <div class="stage">
+      <div class="fabric-area"><div id="fabric-host"></div></div>
+      <div id="status" class="status">Loading assets…</div>
+      <nav id="view-switcher" class="view-switcher" aria-label="Camera view"></nav>
+    </div>
+
+    <aside class="panel">
+      <div id="controls"></div>
+      <div class="export">
+        <div class="export-row">
+          <div>
+            <div class="mini-label" id="build-label">Your build</div>
+            <div id="summary" class="summary"></div>
+          </div>
+          <label class="switch"><input type="checkbox" id="export-transparent" /><span class="track"></span><span>Transparent PNG</span></label>
+        </div>
+        <button id="btn-export" class="primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span id="export-label">Download PNG</span>
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

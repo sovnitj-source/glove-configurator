@@ -8,6 +8,7 @@
     "start": "node tools/serve.mjs 5173",
     "analyze": "python3 tools/analyze_assets.py",
     "model": "python3 tools/build_model.py",
+    "fabric-maps": "python3 tools/build_fabric_maps.py",
     "qa": "node tools/qa_capture.mjs"
   },
   "devDependencies": {

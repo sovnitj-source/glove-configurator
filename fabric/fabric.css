@@ -1,0 +1,20 @@
+/* Fabric.js page: layout glue on top of the shared stylesheet (src/styles.css). */
+.fabric-area {
+  flex: 1; min-height: 0; min-width: 0; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+#fabric-host { position: absolute; inset: 0; }
+#fabric-host canvas { display: block; }
+.stage.transparent #fabric-host canvas {
+  background: repeating-conic-gradient(#3a3a3e 0 25%, #26262a 0 50%) 0 0 / 10px 10px; border-radius: 8px;
+}
+.engine-badge {
+  display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  color: #e8d9a8; background: rgba(40, 34, 18, .75); border: 1px solid rgba(232, 217, 168, .25);
+}
+.actions a.ghost { text-decoration: none; display: inline-flex; align-items: center; }
+
+@media (max-width: 900px) {
+  .fabric-area { flex: none; overflow: visible; }
+  #fabric-host { position: static; width: 100%; }
+}
