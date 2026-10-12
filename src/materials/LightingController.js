@@ -7,6 +7,8 @@ export const LIGHTING_PARAMS = {
   // Oiled glove leather sits in the worn/full-grain band (~0.5-0.7); <0.3 reads as plastic.
   roughness: { label: 'Leather roughness', uniform: 'uRoughness', min: 0, max: 1, step: 0.01, default: 0.6 },
   grain: { label: 'Leather grain', uniform: 'uGrain', min: 0, max: 1.5, step: 0.01, default: 0.3 },
+  // Procedural pebble grain (Worley cells) layered on the photo; fixes smooth "plastic" areas.
+  pebble: { label: 'Pebble grain', uniform: 'uPebble', min: 0, max: 1.5, step: 0.01, default: 0.6 },
   dyeSaturation: { label: 'Dye saturation', uniform: 'uDyeSaturation', min: 0.6, max: 1.1, step: 0.01, default: 0.95 },
 };
 

@@ -61,6 +61,7 @@ uniform float uAO;          // extra crease occlusion
 uniform float uRoughness;   // 0 = glossy/sharp highlights, 1 = matte/broad
 uniform float uGrain;       // amplification of the photo's fine leather detail
 uniform float uDyeSaturation; // chroma ceiling of dyed leather (1 = exact picker chroma)
+uniform float uPebble;       // procedural pebble-grain strength (0 = off)
 
 // Output
 uniform vec3 uBgColor;      // linear
@@ -76,6 +77,7 @@ varying vec2 vUv;
 float gL;   // linear luminance of the photographed (white) glove
 float gB1;  // small blur
 float gB2;  // large blur (local mean)
+vec2 gPx;   // pixel coordinate in the view's native canvas (drives the procedural grain)
 
 struct Lit { float diffuse; float spec; float env; float sheen; float shadow; };
 
@@ -156,8 +158,64 @@ Lit light(float exposure, float specW, float roughMul) {
 // "painted plastic" look. Branding uses dye = 0 and keeps the exact brand colour.
 // Achromatic specular/env reflection is faded out for light albedos (already bright in the
 // photo-derived diffuse) so it never washes colours out.
+// ---- Procedural leather grain -------------------------------------------------------------
+// The photographed glove is smooth in places (finger tops), which reads as plastic once recoloured.
+// Real glove leather has a pebble grain (~1 mm cells). It is synthesised as Worley/cellular noise
+// (Worley 1996): each cell is a tiny dome, the borders are creases. Used as a micro bump: shading
+// from its slope, darker creases, highlights broken up by the cell tops, plus faint low-frequency
+// dye mottling. Strength fades where the photo already has detail and in deep shadow.
+const float GRAIN_CELL = 2.8;   // cell size in native pixels
+vec2 grainHash(vec2 p) {
+  p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+  return fract(sin(p) * 43758.5453);
+}
+float worley(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  float d = 8.0;
+  for (int y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+      vec2 g = vec2(float(x), float(y));
+      vec2 r = g + grainHash(i + g) * 0.85 + 0.075 - f;
+      d = min(d, dot(r, r));
+    }
+  }
+  return sqrt(d);
+}
+float pebble(vec2 px) {
+  return 1.0 - smoothstep(0.05, 0.75, worley(px / GRAIN_CELL));
+}
+float valueNoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float a = grainHash(i).x, b = grainHash(i + vec2(1.0, 0.0)).x;
+  float c = grainHash(i + vec2(0.0, 1.0)).x, d = grainHash(i + vec2(1.0, 1.0)).x;
+  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+struct Grain { float diffuse; float spec; };
+Grain leatherGrain(Lit l) {
+  Grain g;
+  float h = pebble(gPx);
+  vec2 slope = vec2(pebble(gPx + vec2(1.0, 0.0)) - h, pebble(gPx + vec2(0.0, 1.0)) - h);
+  // where the photo already shows texture, add less
+  float photoDetail = clamp(abs(gL - gB1) / max(gB1, 0.02) * 6.0, 0.0, 1.0);
+  float amt = uPebble * mix(1.0, 0.45, photoDetail) * smoothstep(0.03, 0.35, l.diffuse);
+  float bump = dot(slope, normalize(vec2(-0.55, 0.8)));          // key light from the upper left
+  float mottle = valueNoise(gPx / 42.0) * 0.6 + valueNoise(gPx / 11.0) * 0.4 - 0.5;
+  g.diffuse = 1.0 + amt * (0.55 * bump + 0.16 * (h - 0.474)) + uPebble * 0.06 * mottle;
+  g.spec = mix(1.0, 0.29 + 1.5 * h, clamp(amt * 1.1, 0.0, 1.0));
+  return g;
+}
+
 vec3 shade(vec3 albedo, Lit l, float dye) {
   vec3 lin = albedo * l.diffuse;
+  float grainSpec = 1.0;
+  if (dye > 0.0) {
+    Grain gr = leatherGrain(l);
+    lin *= mix(1.0, gr.diffuse, dye);
+    grainSpec = mix(1.0, gr.spec, dye);
+  }
   if (dye > 0.0) {
     vec3 lab = linearToOklab(lin);
     float k = mix(1.0, uDyeSaturation, dye);
@@ -170,7 +228,7 @@ vec3 shade(vec3 albedo, Lit l, float dye) {
   float a = luma(albedo);
   float specW = 1.0 - smoothstep(0.05, 0.85, a);
   float envW = 1.0 - smoothstep(0.0, 0.06, a);
-  return lin + vec3(l.spec * specW + l.env * envW);
+  return lin + vec3(l.spec * specW * grainSpec + l.env * envW);
 }
 
 // Hue-preserving soft clip: scale instead of per-channel clipping so bright reds don't turn orange.
@@ -206,6 +264,7 @@ void main() {
   gL = srgbToLinear(levelled(texture2D(uShadowMap, vUv).r, uLevels));
   gB1 = lt.g;
   gB2 = lt.b;
+  gPx = vUv / uTexel;
 
   // Seam fill: where source masks leave a hairline gap inside the glove, borrow material
   // weights from the neighbourhood so the gap renders as the adjacent material.

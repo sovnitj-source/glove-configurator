@@ -46,12 +46,14 @@ uniform float uAO;
 uniform float uRoughness;
 uniform float uGrain;
 uniform float uDyeSaturation;
+uniform float uPebble;
 
 varying vec2 vTexCoord;
 
 float gL;
 float gB1;
 float gB2;
+vec2 gPx;
 
 ${SHADING}
 
@@ -66,6 +68,7 @@ void main() {
   gL = srgbToLinear(levelled(lt.r, uLevels));
   gB1 = srgbToLinear(lt.g);
   gB2 = srgbToLinear(lt.b);
+  gPx = vec2(uv.x, 1.0 - uv.y) / uTexel; // Fabric texcoords are top-down; match the Three.js grain
 
   // Seam fill (same as the Three.js version): borrow neighbouring material weights in hairline gaps.
   float closed = p4.g;
@@ -127,7 +130,7 @@ void main() {
 `;
 
 const COLOR_UNIFORMS = ['uLeatherColor', 'uBindingColor', 'uLaceColor', 'uLinerColor', 'uSwooshColor', 'uStitchColor', 'uEmbroideryColor', 'uSwooshBaseColor'];
-const FLOAT_UNIFORMS = ['uExpLeather', 'uExpLiner', 'uExpStitch', 'uExpSwooshBase', 'uLighting', 'uShadow', 'uHighlight', 'uAO', 'uRoughness', 'uGrain', 'uDyeSaturation'];
+const FLOAT_UNIFORMS = ['uExpLeather', 'uExpLiner', 'uExpStitch', 'uExpSwooshBase', 'uLighting', 'uShadow', 'uHighlight', 'uAO', 'uRoughness', 'uGrain', 'uDyeSaturation', 'uPebble'];
 
 // Fabric.js WebGL image filter that recolours one glove view.
 //   image source  = light.png of the view
@@ -177,7 +180,7 @@ export class GloveFilter extends filters.BaseFilter {
       const c = s[n].value;
       gl.uniform3f(loc[n], c.r, c.g, c.b);
     }
-    for (const n of ['uLighting', 'uShadow', 'uHighlight', 'uAO', 'uRoughness', 'uGrain', 'uDyeSaturation']) {
+    for (const n of ['uLighting', 'uShadow', 'uHighlight', 'uAO', 'uRoughness', 'uGrain', 'uDyeSaturation', 'uPebble']) {
       gl.uniform1f(loc[n], s[n].value);
     }
     gl.uniform4fv(loc.uPanelOverride, s.uPanelOverride.value.flatMap((p) => [p.x, p.y, p.z, p.w]));

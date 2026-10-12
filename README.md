@@ -131,6 +131,12 @@ colour = dyed + (spec·specW(albedo) + env·envW(albedo))
 - **Highlights keep the photo's own sharpness but never clip to white.** The highlight shape comes from the full-resolution photo: each pixel above its local mean. An earlier version built a "soft" highlight from blurred maps, and it smeared into out-of-focus glows along the finger rolls. Highlight strength now goes through a soft knee, so it saturates instead of turning into wet-plastic white, and it drops as roughness rises.
 - **Sheen desaturation applies only where there is an actual highlight**, not across whole brightly lit areas. The near-blown-out finger tops in the source photo therefore keep their dye colour instead of going pale.
 - **Roughness defaults to 0.6.** Glove leather is oiled, which places it in the worn/full-grain range of roughly 0.5–0.7. Values below about 0.3 look like plastic.
+- **Procedural pebble grain.** Some areas of the photos are smooth, the back-view finger tops in particular, and they read as plastic once recoloured. Real glove leather has a pebble grain of about 1 mm cells, so the shader synthesises it with Worley/cellular noise at a 2.8 px cell size.
+  - The grain acts as a micro bump: light hits the slope from the upper left, the creases are slightly darker, and the cell tops break up the specular highlights.
+  - A faint low-frequency mottling is added, because tanned leather never dyes perfectly evenly.
+  - The grain is strongest where the photo is smooth and lit. It fades in deep shadow and where the photo already shows texture.
+  - The grain is centred on its measured average, so overall brightness doesn't change; the QA mean colours are identical.
+  - The "Pebble grain" slider in the Developer panel controls the strength (`uPebble`, default 0.6). The Fabric version uses the same code, with its coordinates flipped so the pattern matches exactly.
 - **Grain comes from the photo itself.** The grain slider amplifies the fine detail already in the Shadow Layer (the ratio of each pixel to its small blur). It doesn't invent geometry.
 - **Specular and environment reflections are white light, as on real leather.** They fade out for light albedos, which already appear bright through `D`.
 - **The black-leather depth comes from the env and spec terms.** That reflected light keeps black leather shaded instead of collapsing to a flat silhouette.

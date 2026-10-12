@@ -24,6 +24,7 @@ export function createSharedUniforms() {
     uRoughness: { value: 0.6 },
     uGrain: { value: 0.3 },
     uDyeSaturation: { value: 0.95 },
+    uPebble: { value: 0.6 },
     uBgColor: { value: new THREE.Color(0x111111) },
     uBgMode: { value: 1 },
     uView: { value: VIEW.FINAL },
